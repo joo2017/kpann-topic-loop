@@ -1,4 +1,5 @@
 import { tracked } from "@glimmer/tracking";
+import { action } from "@ember/object";
 import BasicTopicList from "discourse/components/basic-topic-list";
 import BrowseMore from "discourse/components/more-topics/browse-more";
 import { withPluginApi } from "discourse/lib/plugin-api";
@@ -149,6 +150,7 @@ export default {
               }
             }
 
+            @action
             selectTab(tab) {
               if (isKpannTab(tab)) {
                 this.preferredTab = tab;
