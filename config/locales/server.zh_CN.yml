@@ -1,0 +1,14 @@
+zh_CN:
+  site_settings:
+    kpann_topic_loop_enabled: "启用 Kpann 内容闭环推荐"
+    kpann_topic_loop_max_items: "每个主题最多显示多少条闭环推荐"
+    kpann_topic_loop_min_score: "闭环推荐最低分数"
+    kpann_topic_loop_excluded_categories: "不参与闭环推荐的分类 slug"
+    kpann_topic_loop_excluded_tags: "不参与闭环推荐的标签"
+    kpann_topic_loop_anonymous_safe_mode: "匿名吐槽安全模式"
+    kpann_topic_loop_cache_minutes: "闭环推荐缓存分钟数"
+    kpann_topic_loop_artist_tag_group: "艺人标签组名称"
+    kpann_topic_loop_type_tag_group: "内容类型标签组名称"
+    kpann_topic_loop_source_tag_group: "来源社区标签组名称"
+    kpann_topic_loop_time_tag_group: "时间标签组名称"
+    kpann_topic_loop_status_tag_group: "状态标签组名称"

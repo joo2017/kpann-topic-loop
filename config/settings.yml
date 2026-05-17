@@ -1,0 +1,35 @@
+plugins:
+  kpann_topic_loop_enabled:
+    default: true
+    client: true
+  kpann_topic_loop_max_items:
+    default: 5
+    min: 1
+    max: 10
+    client: true
+  kpann_topic_loop_min_score:
+    default: 30
+    min: 0
+    max: 200
+  kpann_topic_loop_excluded_categories:
+    default: "notice"
+    type: list
+  kpann_topic_loop_excluded_tags:
+    default: ""
+    type: list
+  kpann_topic_loop_anonymous_safe_mode:
+    default: true
+  kpann_topic_loop_cache_minutes:
+    default: 30
+    min: 1
+    max: 1440
+  kpann_topic_loop_artist_tag_group:
+    default: "artist"
+  kpann_topic_loop_type_tag_group:
+    default: "type"
+  kpann_topic_loop_source_tag_group:
+    default: "source"
+  kpann_topic_loop_time_tag_group:
+    default: "time"
+  kpann_topic_loop_status_tag_group:
+    default: "status"
