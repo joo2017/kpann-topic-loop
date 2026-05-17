@@ -1,5 +1,6 @@
 import { tracked } from "@glimmer/tracking";
 import BasicTopicList from "discourse/components/basic-topic-list";
+import BrowseMore from "discourse/components/more-topics/browse-more";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { i18n } from "discourse-i18n";
 
@@ -20,6 +21,10 @@ const KpannTopicLoop = <template>
         @listContext="suggested"
       />
     </div>
+
+    {{#unless @topic.suggestedTopics.length}}
+      <BrowseMore @topic={{@topic}} />
+    {{/unless}}
   </div>
 </template>;
 
@@ -40,6 +45,10 @@ const KpannInterestTopics = <template>
         @listContext="suggested"
       />
     </div>
+
+    {{#unless @topic.suggestedTopics.length}}
+      <BrowseMore @topic={{@topic}} />
+    {{/unless}}
   </div>
 </template>;
 
