@@ -4,6 +4,26 @@ import BrowseMore from "discourse/components/more-topics/browse-more";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { i18n } from "discourse-i18n";
 
+const KPANN_TAB_IDS = new Set(["kpann-topic-loop", "kpann-interest-topics"]);
+
+function isKpannTab(tab) {
+  return tab && KPANN_TAB_IDS.has(tab.id);
+}
+
+function sortWithSuggestedFirst(tabs) {
+  return [...tabs].sort((a, b) => {
+    if (a.id === "suggested-topics") {
+      return -1;
+    }
+
+    if (b.id === "suggested-topics") {
+      return 1;
+    }
+
+    return 0;
+  });
+}
+
 const KpannTopicLoop = <template>
   <div
     role="complementary"
@@ -63,6 +83,10 @@ export default {
     }
 
     withPluginApi((api) => {
+      api.registerValueTransformer("more-topics-tabs", ({ value }) =>
+        sortWithSuggestedFirst(value)
+      );
+
       api.registerMoreTopicsTab({
         id: "kpann-topic-loop",
         name: i18n("kpann_topic_loop.tab"),
@@ -109,6 +133,28 @@ export default {
 
             get kpannInterestTopics() {
               return this._kpannInterestTopicRecords;
+            }
+          }
+      );
+
+      api.modifyClass(
+        "service:more-topics-tabs",
+        (Superclass) =>
+          class extends Superclass {
+            setup(topic) {
+              super.setup(topic);
+
+              if (isKpannTab(this.preferredTab)) {
+                this.preferredTab = null;
+              }
+            }
+
+            selectTab(tab) {
+              if (isKpannTab(tab)) {
+                this.preferredTab = tab;
+              } else {
+                super.selectTab(tab);
+              }
             }
           }
       );
