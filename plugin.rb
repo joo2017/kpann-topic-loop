@@ -14,6 +14,7 @@ end
 
 after_initialize do
   require_dependency File.expand_path("app/services/kpann_topic_loop/recommendation_service.rb", __dir__)
+  require_dependency File.expand_path("app/services/kpann_topic_loop/interest_recommendation_service.rb", __dir__)
   require_dependency File.expand_path("app/controllers/kpann_topic_loop/recommendations_controller.rb", __dir__)
 
   add_to_class(:topic_view, :kpann_topic_loop) do
@@ -31,6 +32,23 @@ after_initialize do
       ).call
   end
 
+  add_to_class(:topic_view, :kpann_interest_topics) do
+    if topic.private_message? || !SiteSetting.kpann_topic_loop_enabled || @user.blank? ||
+         @user.anonymous?
+      return nil
+    end
+
+    guardian = Guardian.new(@user)
+
+    @kpann_interest_topics ||=
+      KpannTopicLoop::InterestRecommendationService.new(
+        topic: topic,
+        user: @user,
+        guardian: guardian,
+        limit: SiteSetting.kpann_topic_loop_max_items.to_i,
+      ).call
+  end
+
   %i[topic_view TopicViewPosts].each do |serializer|
     add_to_serializer(
       serializer,
@@ -39,6 +57,18 @@ after_initialize do
     ) do
       if object.next_page.nil? && !object.topic.private_message?
         object.kpann_topic_loop&.map do |topic|
+          SuggestedTopicSerializer.new(topic, scope: scope, root: false)
+        end
+      end
+    end
+
+    add_to_serializer(
+      serializer,
+      :kpann_interest_topics,
+      include_condition: -> { SiteSetting.kpann_topic_loop_enabled },
+    ) do
+      if object.next_page.nil? && !object.topic.private_message?
+        object.kpann_interest_topics&.map do |topic|
           SuggestedTopicSerializer.new(topic, scope: scope, root: false)
         end
       end

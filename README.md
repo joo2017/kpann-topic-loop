@@ -11,6 +11,8 @@ The plugin adds a native More Topics tab named `闭环推荐` on topic pages. It
 
 Recommendations are scored by shared tag groups, category loop relationships, status tags, recency, and light engagement signals.
 
+When `kpann-interest-core` is installed, the plugin also adds a native More Topics tab named `我的关注`. This tab recommends topics matching the current user's watched/tracked artist tags and filters muted artist tags through the shared core service.
+
 ## Settings
 
 - `kpann_topic_loop_enabled`
@@ -28,4 +30,3 @@ Recommendations are scored by shared tag groups, category loop relationships, st
 ## Compatibility
 
 Tested on Discourse `2026.5.0-latest`.
-

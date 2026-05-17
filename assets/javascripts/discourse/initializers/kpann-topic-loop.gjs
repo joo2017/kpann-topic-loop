@@ -24,6 +24,26 @@ const KpannTopicLoop = <template>
   </div>
 </template>;
 
+const KpannInterestTopics = <template>
+  <div
+    role="complementary"
+    aria-labelledby="kpann-interest-topics-title"
+    id="kpann-interest-topics"
+    class="more-topics__list"
+  >
+    <h3 id="kpann-interest-topics-title" class="more-topics__list-title">
+      {{dIcon "bell"}}{{i18n "kpann_topic_loop.interest_title"}}
+    </h3>
+
+    <div class="topics">
+      <BasicTopicList
+        @topics={{@topic.kpannInterestTopics}}
+        @listContext="kpann-interest-topics"
+      />
+    </div>
+  </div>
+</template>;
+
 export default {
   name: "kpann-topic-loop",
 
@@ -43,11 +63,20 @@ export default {
         condition: ({ topic }) => topic.kpannTopicLoopTopics?.length,
       });
 
+      api.registerMoreTopicsTab({
+        id: "kpann-interest-topics",
+        name: i18n("kpann_topic_loop.interest_tab"),
+        icon: "bell",
+        component: KpannInterestTopics,
+        condition: ({ topic }) => topic.kpannInterestTopics?.length,
+      });
+
       api.modifyClass(
         "model:topic",
         (Superclass) =>
           class extends Superclass {
             @tracked _kpannTopicLoopRecords = null;
+            @tracked _kpannInterestTopicRecords = null;
 
             // Only updates if we have data - preserves cache when scrolling.
             set kpann_topic_loop(value) {
@@ -61,6 +90,18 @@ export default {
             get kpannTopicLoopTopics() {
               return this._kpannTopicLoopRecords;
             }
+
+            set kpann_interest_topics(value) {
+              if (value?.length) {
+                this._kpannInterestTopicRecords = value.map((topic) =>
+                  this.store.createRecord("topic", topic)
+                );
+              }
+            }
+
+            get kpannInterestTopics() {
+              return this._kpannInterestTopicRecords;
+            }
           }
       );
 
@@ -73,6 +114,10 @@ export default {
 
               if (result.kpann_topic_loop) {
                 this.topic.kpann_topic_loop = result.kpann_topic_loop;
+              }
+
+              if (result.kpann_interest_topics) {
+                this.topic.kpann_interest_topics = result.kpann_interest_topics;
               }
             }
           }
