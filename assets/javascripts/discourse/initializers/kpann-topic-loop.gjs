@@ -1,7 +1,6 @@
 import { tracked } from "@glimmer/tracking";
 import BasicTopicList from "discourse/components/basic-topic-list";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import dIcon from "discourse/ui-kit/helpers/d-icon";
 import { i18n } from "discourse-i18n";
 
 const KpannTopicLoop = <template>
@@ -12,13 +11,13 @@ const KpannTopicLoop = <template>
     class="more-topics__list"
   >
     <h3 id="kpann-topic-loop-title" class="more-topics__list-title">
-      {{dIcon "link"}}{{i18n "kpann_topic_loop.title"}}
+      {{i18n "kpann_topic_loop.title"}}
     </h3>
 
     <div class="topics">
       <BasicTopicList
         @topics={{@topic.kpannTopicLoopTopics}}
-        @listContext="kpann-topic-loop"
+        @listContext="suggested"
       />
     </div>
   </div>
@@ -32,13 +31,13 @@ const KpannInterestTopics = <template>
     class="more-topics__list"
   >
     <h3 id="kpann-interest-topics-title" class="more-topics__list-title">
-      {{dIcon "bell"}}{{i18n "kpann_topic_loop.interest_title"}}
+      {{i18n "kpann_topic_loop.interest_title"}}
     </h3>
 
     <div class="topics">
       <BasicTopicList
         @topics={{@topic.kpannInterestTopics}}
-        @listContext="kpann-interest-topics"
+        @listContext="suggested"
       />
     </div>
   </div>
